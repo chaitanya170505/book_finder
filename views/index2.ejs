@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+  <% if (apidata.items && apidata.items.length>0) { %>
+    <% for(let i=0;i<apidata.items.length;i++) { %>
+      <div class="book-card">
+        <% const book = apidata.items[i]; %>
+        <% if (book.volumeInfo.imageLinks && book.volumeInfo.imageLinks.thumbnail) { %>
+          <img src="<%= book.volumeInfo.imageLinks.thumbnail %>" alt="Book Cover">
+        <% } %>
+        <h1><%= book.volumeInfo.title %></h1>
+        <p><strong>Authors:</strong> <%= book.volumeInfo.authors ? book.volumeInfo.authors.join(', ') : 'Unknown' %></p>
+        <p><strong>Publisher:</strong> <%= book.volumeInfo.publisher || 'N/A' %></p>
+        <p><strong>Description:</strong> <%= book.volumeInfo.description || 'No description available.' %></p>
+        <p><strong>ISBN:</strong> 
+          <% if (book.volumeInfo.industryIdentifiers) { %>
+            <% for (let j = 0; j < book.volumeInfo.industryIdentifiers.length; j++) { %>
+              <%= book.volumeInfo.industryIdentifiers[j].type %>: <%= book.volumeInfo.industryIdentifiers[j].identifier %><br>
+            <% } %>
+          <% } else { %> N/A <% } %>
+        </p>
+        <p><strong>Categories:</strong> <%= book.volumeInfo.categories ? book.volumeInfo.categories.join(', ') : 'N/A' %></p>
+        <p><strong>Page Count:</strong> <%= book.volumeInfo.pageCount || 'N/A' %></p>
+        <p><strong>Rating:</strong> <%= book.volumeInfo.averageRating || 'N/A' %></p>
+        <a href="<%= book.volumeInfo.previewLink %>" target="_blank">Preview this book</a>
+      </div>
+    <% } %>
+  <% } else { %>
+    <div class="else"><p>No books found.</p></div>
+  <% } %>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,249 @@
+<%- include('partials/header') %>
+
+<div class="copy_code_section">
+<h3 id="copyw1">File Hierarchy :-</h3>
+    <div class="copy_code" id="contentCopy1">
+      <pre>
+    project-directory/
+    │
+    ├── public/
+    │   ├────  Assets
+    │   ├──── style.css 
+    │   ├──── file.js  
+    │   
+    │
+    ├── views/
+    │   ├── Partials/
+    │   │   ├── header.ejs
+    │   │   └── footer.ejs
+    │   ├── index1.ejs
+    │   ├── index2.ejs
+    │   ├── about.ejs
+    │   ├── contact.ejs
+    │   ├── source_code.ejs   
+    │
+    ├── index.js
+    ├── package.json
+    └── package-lock.json
+        
+        
+    </pre
+      >
+    </div>
+    <div class="copy" ><button id="copy1" onclick="copyCode1()">Copy</button></div>
+
+
+
+    <h3 id="copyw2">index.js Code :-</h3>
+    <div class="copy_code" id="contentCopyJ">
+      <pre>
+    import express from 'express';
+    import bodyParser from 'body-parser';
+    import QRCode from 'qrcode'
+    
+    const app = express();
+    
+    app.use(bodyParser.urlencoded({ extended: false }));
+    
+    const port=3000;
+    
+    app.use(express.static('public'));
+    
+    app.set('views', './views');
+    app.set('view engine', 'ejs');
+    
+    app.get('/', (req, res) => {
+        res.render('index');
+    });
+    
+    app.get("/about", (req, res) => {
+        res.render("about");
+      });
+    
+    app.get("/contact", (req, res) => {
+        res.render("contact");
+    });
+    
+    app.get("/source-code", (req, res) => {
+      res.render("source_code");
+    });
+    
+    
+    
+    app.listen(port, () => {
+        console.log(`Server started on port ${port}`);
+    });
+    
+    let ImgUrl;
+    
+    app.post("/submit", (req, res) => {
+      const urlTxt = req.body.url;
+    
+      QRCode.toDataURL(urlTxt)
+          .then(url => {
+              const ImgUrl = url;
+              res.render('index', { imagePath: ImgUrl });
+          })
+          .catch(err => {
+              console.error(err);
+              res.render('index', { imagePath: null });
+          });
+    });        
+    </pre
+      >
+    </div>
+    <div class="copy" ><button id="copyJ" onclick="copyCode2()">Copy</button></div>
+
+
+    <h3 id="copyw3">index1.ejs Code :-</h3>
+    <div class="copy_code" id="contentCopy2">
+      <pre>
+    &#60;%- include('partials/header') %&#62;
+
+    &#60;div class="search-container"&#62;
+      &#60;form id="book-search-form" action="/submit-form" method="post"&#62;
+          &#60;h2&#62;Search for a Book&#60;/h2&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="title"&#62;Title:&#60;/label&#62;
+            &#60;input type="text" id="title" name="title" placeholder="Enter book title"&#62;
+          &#60;/div&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="author"&#62;Author:&#60;/label&#62;
+            &#60;input type="text" id="author" name="author" placeholder="Enter author name"&#62;
+          &#60;/div&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="publisher"&#62;Publisher:&#60;/label&#62;
+            &#60;input type="text" id="publisher" name="publisher" placeholder="Enter Publisher:"&#62;
+          &#60;/div&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="isbn"&#62;ISBN:&#60;/label&#62;
+            &#60;input type="text" id="isbn" name="isbn" placeholder="Enter ISBN"&#62;
+          &#60;/div&#62;
+          &#60;button type="submit" class="search-button" id="sub_btn"&#62;Search&#60;/button&#62;
+        &#60;/form&#62;
+      &#60;/div&#62;
+    
+      &#60;script src="/file.js"&#62;&#60;/script&#62;
+    
+    &#60;%- include('partials/footer') %&#62;        
+    </pre
+      >
+    </div>
+    <div class="copy" ><button id="copy2" onclick="copyCode2()">Copy</button></div>
+
+    <h3 id="copyw4">About.ejs Code :-</h3>
+    <div class="copy_code" id="contentCopy3">
+      <pre>
+    &#60;%- include('partials/header') %&#62;
+      &#60;div class="about-container"&#62;
+        &#60;h2&#62;About&#60;/h2&#62;
+        &#60;p&#62;
+          Welcome to my book search application!
+          I leverage the Google Books API to provide you with the most comprehensive and up-to-date book information.
+        &#60;/p&#62;
+        &#60;p&#62;
+          Whether you're looking for the latest bestsellers, timeless classics, or hidden gems, this tool allows you to search by title, author, ISBN, or keywords.
+        &#60;/p&#62;
+        &#60;p&#62;
+          Feel free to explore and discover your next great read. Happy reading!
+        &#60;/p&#62;
+        &#60;div class="about_img"&#62;&#60;img src="/assets/logo.png" id="about_img" alt=""&#62;&#60;/div&#62;
+      &#60;/div&#62;
+    
+    &#60;%- include('partials/footer') %&#62;
+    </pre>
+    </div>
+    <div class="copy" ><button id="copy3" onclick="copyCode3()">Copy</button></div>
+
+
+    <h3 id="copyw5">contact.ejs Code :-</h3>
+    <div class="copy_code" id="contentCopy4">
+      <pre>
+    &#60;%- include('partials/header') %&#62;
+
+      &#60;div class="contact-container"&#62;
+        &#60;h2&#62;Contact Me&#60;/h2&#62;
+        &#60;form id="contact-form" action="/send-email" method="post"&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="name"&#62;Name:&#60;/label&#62;
+            &#60;input type="text" id="name" name="name" placeholder="Enter your name" required&#62;
+          &#60;/div&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="email"&#62;Email:&#60;/label&#62;
+            &#60;input type="email" id="email" name="email" placeholder="Enter your email" required&#62;
+          &#60;/div&#62;
+          &#60;div class="form-group"&#62;
+            &#60;label for="message"&#62;Message:&#60;/label&#62;
+            &#60;textarea id="message" name="message" rows="5" placeholder="Enter your message" required&#62;&#60;/textarea&#62;
+          &#60;/div&#62;
+          &#60;button type="submit" class="submit-button"&#62;Send Message&#60;/button&#62;
+        &#60;/form&#62;
+      &#60;/div&#62;
+    
+    &#60;%- include('partials/footer') %&#62;
+    </pre>
+    </div>
+    <div class="copy" ><button id="copy4" onclick="copyCode4()">Copy</button></div>
+
+
+    <h3 id="copyw6">header.ejs Code :-</h3>
+    <div class="copy_code" id="contentCopy5">
+      <pre>
+    &#60;!DOCTYPE html&#62;
+    &#60;html lang="en"&#62;
+    &#60;head&#62;
+      &#60;meta charset="UTF-8"&#62;
+      &#60;meta name="viewport" content="width=device-width, initial-scale=1.0"&#62;
+      &#60;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"&#62;
+      &#60;link rel="stylesheet" href="/style.css"&#62;
+      &#60;link rel="shortcut icon" href="/assets/favicon.png" type="image/x-icon"&#62;
+      &#60;title&#62;Book Search&#60;/title&#62;
+    &#60;/head&#62;
+    
+    &#60;body&#62;
+      &#60;div class="container-fluid"&#62;
+      &#60;div class="container"&#62;
+        &#60;header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom"&#62;
+          &#60;a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none"&#62;
+            &#60;img src="/assets/logo.png" class="bi me-2" width="40" height="32" alt="Bootstrap Icon"&#62;
+            &#60;span class="fs-4"&#62;Book Search API&#60;/span&#62;
+          &#60;/a&#62;
+    
+          &#60;ul class="nav nav-pills"&#62;
+            &#60;li class="nav-item"&#62;&#60;a href="/" class="nav-link"&#62;Home&#60;/a&#62;&#60;/li&#62;
+            &#60;li class="nav-item"&#62;&#60;a href="/about" class="nav-link"&#62;About&#60;/a&#62;&#60;/li&#62;
+            &#60;li class="nav-item"&#62;&#60;a href="/contact" class="nav-link"&#62;Contact&#60;/a&#62;&#60;/li&#62;
+            &#60;li class="nav-item"&#62;&#60;a href="/source-code" class="nav-link"&#62;Source-Code&#60;/a&#62;&#60;/li&#62;
+          &#60;/ul&#62;
+        &#60;/header&#62;
+      &#60;/div&#62;
+    &#60;/div&#62;        
+    </pre>
+    </div>
+    <div class="copy" ><button id="copy5" onclick="copyCode5()">Copy</button></div>
+
+
+    <h3 id="copyw7">footer.ejs Code :-</h3>
+    <div class="copy_code" id="contentCopy6">
+      
+    <pre>   &#60;footer&#62;
+    &#60;div class="social-media"&#62;
+      &#60;a href="https://www.linkedin.com/in/chaitanya-mogalla-811221301/" target="_blank"&#62;&#60;img src="/assets/linkdin.webp" alt="linkdin"&#62;&#60;/a&#62;
+      &#60;a href="https://twitter.com/ChaitanyaM1718" target="_blank"&#62;&#60;img src="/assets/twitter.png" alt="gmail"&#62;&#60;/a&#62;
+      &#60;a href="https://www.instagram.com/_m_chaitanya__?igsh=ZHNxeWxzNjkxYmgz" target="_blank"&#62;&#60;img src="/assets/instagram.webp" alt="instagram"&#62;&#60;/a&#62;
+    &#60;/div&#62;
+    &#60;div class="copyright"&#62;
+      &#60;span&#62;&#38;copy;&#60;/span&#62; &#60;span&#62;2024&#60;/span&#62; &#60;span&#62;Chitanya_M&#60;/span&#62;. &#60;span&#62;All&#60;/span&#62; &#60;span&#62;rights&#60;/span&#62; &#60;span&#62;reserved.&#60;/span&#62; &#60;span&#62;For&#60;/span&#62; &#60;span&#62;inquiries&#60;/span&#62;, &#60;span&#62;contact&#60;/span&#62; &#60;span&#62;me&#60;/span&#62; &#60;span&#62;at&#60;/span&#62; &#60;span&#62;&#60;a href="mailto:mogallachaitanya@gmail.com"&#62;mogallachaitanya@gmail.com&#60;/span&#62;&#60;/a&#62;.
+    &#60;/div&#62;
+    &#60;/footer&#62;
+    &#60;script src="/file.js"&#62;&#60;/script&#62;
+    &#60;/body&#62;
+    &#60;/html&#62;
+    </pre>
+    </div>
+    <div class="copy" ><button id="copy6" onclick="copyCode6()">Copy</button></div>
+
+  <script src="/file.js"></script>
+
+</div>
+<%- include('partials/footer') %>
